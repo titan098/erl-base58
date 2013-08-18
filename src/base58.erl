@@ -192,7 +192,11 @@ base58_to_integer([Char | Str]) ->
 
 -spec base58_to_binary(base58()) -> binary().
 base58_to_binary(Base58) ->
-	binary:encode_unsigned(base58_to_integer(Base58)).
+	Bin = binary:encode_unsigned(base58_to_integer(Base58)),
+	%The conversion between the binary and the integer strips any leading zero bytes that 
+	% might have appeared in the binary - '0's' should be prepended to the binary stream for each
+	% 1 that appeared at the start of the base58 string.
+	zeroPad(Base58, Bin).
 
 %% @doc Convert a binary into a Base58 encoded string. The resulting Base58
 %% encoded string will be in a big-endian representation of the original binary.
@@ -203,5 +207,22 @@ base58_to_binary(Base58) ->
 binary_to_base58(Binary) when is_binary(Binary) ->
 	case integer_to_base58(binary:decode_unsigned(Binary)) of
 		error -> error;
-		Base58 -> Base58
+		Base58 ->
+			% see above comment - just the reverse
+			binaryPad(binary_to_list(Binary), Base58)
 	end.
+
+%% @doc Pad a "1" character to a Base58 stream to account for any stripped zeros
+%%
+%% @spec binaryPad(list(), base58())
+binaryPad([0 | Rest], Bin) ->
+	binaryPad(Rest, "1" ++ Bin);
+binaryPad(_, Bin) -> Bin.
+
+%% @doc Pad a zero byte to a Base58 stream to account for any leading 1's
+%%
+%% @spec zeroPad(base58(), binary())
+
+zeroPad("1" ++ Rest, Base58) ->
+	zeroPad(Rest, <<0, Base58/binary>>);
+zeroPad(_, Base58) -> Base58.

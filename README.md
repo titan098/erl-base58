@@ -12,19 +12,19 @@ The following example demonstrates the usage of this module:
 
 ```erlang
 1> base58:integer_to_base58(16#00010966776006953D5567439E5E39F86A0D273BEED61967F6).
-"6UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM"
-2> base58:base58_to_integer("6UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM").
+"16UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM"
+2> base58:base58_to_integer("16UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM").
 25420294593250030202636073700053352635053786165627414518
-3> base58:base58_to_integer("6UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM") == 16#00010966776006953D5567439E5E39F86A0D273BEED61967F6.
+3> base58:base58_to_integer("16UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM") == 16#00010966776006953D5567439E5E39F86A0D273BEED61967F6.
 true
 4> base58:binary_to_base58(binary:encode_unsigned(16#00010966776006953D5567439E5E39F86A0D273BEED61967F6)).
-"6UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM"
+"16UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM"
 5> base58:base58_to_binary("6UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM").
-<<1,9,102,119,96,6,149,61,85,103,67,158,94,57,248,106,13,
+<<0, 1,9,102,119,96,6,149,61,85,103,67,158,94,57,248,106,13,
   39,59,238,214,25,103,246>>
-6> base58:check_base58("6UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM"). 
+6> base58:check_base58("16UwLL9Risc3QfPqBUvKofHmBQ7wMtjvM"). 
 true
-7> base58:check_base58("6UwLL9Risc3QfPqBUvKofHmBQ7wMtjv0").
+7> base58:check_base58("16UwLL9Risc3QfPqBUvKofHmBQ7wMtjv0").
 false
 ```
 
